@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.room)
+    id("kotlin-kapt")
 }
 
 android {
@@ -49,6 +52,10 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -66,4 +73,24 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    //Retrofit
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    //Coil
+    implementation(libs.coil)
+    //Navigation
+    implementation(libs.compose.navigation)
+    //Dagger
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
+    //Paging3
+    implementation(libs.paging3)
+    implementation(libs.paging3.compose)
+    //Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging.version)
+    kapt(libs.room.compiler)
 }
