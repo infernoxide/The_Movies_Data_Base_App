@@ -7,6 +7,8 @@ import com.example.themoviedatabaseapp.data.local.room.MoviesDatabase
 import com.example.themoviedatabaseapp.data.local.room.dao.MoviesDAO
 import com.example.themoviedatabaseapp.data.remote.AuthInterceptor
 import com.example.themoviedatabaseapp.data.remote.MoviesAPI
+import com.example.themoviedatabaseapp.data.repository.MoviesRepositoryImpl
+import com.example.themoviedatabaseapp.domain.repository.MoviesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,4 +68,15 @@ object AppModule {
         ).fallbackToDestructiveMigration()
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideMoviesRepository(
+        moviesAPI: MoviesAPI,
+        moviesDAO: MoviesDAO,
+        networkMonitor: NetworkMonitor
+    ): MoviesRepository {
+        return MoviesRepositoryImpl(moviesAPI, moviesDAO, networkMonitor)
+    }
+
 }
