@@ -2,7 +2,6 @@ package com.example.themoviedatabaseapp.data.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.themoviedatabaseapp.core.Constants
 import com.example.themoviedatabaseapp.domain.model.MovieModel
 import com.example.themoviedatabaseapp.domain.repository.MoviesRepository
 
@@ -18,7 +17,7 @@ class MoviesDataSource (private val repository: MoviesRepository) : PagingSource
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieModel> {
         return try {
             val nextPageNumber = params.key ?: 1
-            val response = repository.getMoviesByPaging(Constants.LANGUAGE_PARAM, nextPageNumber)
+            val response = repository.getMoviesByPaging(nextPageNumber)
             LoadResult.Page(
                 data = response.results,
                 prevKey = null,
