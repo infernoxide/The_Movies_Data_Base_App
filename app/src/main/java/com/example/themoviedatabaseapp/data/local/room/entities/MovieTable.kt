@@ -11,7 +11,7 @@ data class MovieTable(
     @ColumnInfo(name = "backdrop_path")
     val backdrop_path: String,
     @ColumnInfo(name = "home_page")
-    val home_page: String,
+    val homepage: String,
     @ColumnInfo(name = "overview")
     val overview: String,
     @ColumnInfo(name = "release_date")

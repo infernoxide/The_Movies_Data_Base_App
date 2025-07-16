@@ -7,24 +7,36 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.themoviedatabaseapp.R
+import com.example.themoviedatabaseapp.core.Constants.Companion.NAV_DETAIL_VIEW
 import com.example.themoviedatabaseapp.presentation.viewmodel.MoviesViewModel
 import com.example.themoviedatabaseapp.presentation.composables.MovieCard
+import com.example.themoviedatabaseapp.presentation.composables.ShimmerHomeResults
 
 @Composable
-fun ContentHomeView(viewModel: MoviesViewModel, paddingValues: PaddingValues) {
+fun ContentHomeView(viewModel: MoviesViewModel, paddingValues: PaddingValues, navController: NavController) {
     val moviesPage = viewModel.moviesPage.collectAsLazyPagingItems()
+    var search by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -38,13 +50,33 @@ fun ContentHomeView(viewModel: MoviesViewModel, paddingValues: PaddingValues) {
             is LoadState.Error -> {
                 val error = (moviesPage.loadState.refresh as LoadState.Error).error
                 error.message?.let {
-
+                    ErrorView(
+                        buttonText = stringResource(R.string.retry),
+                        error = it,
+                        onRetry = { moviesPage.retry() }
+                    )
                 }
             }
             is LoadState.Loading -> {
-
+                ShimmerHomeResults()
             }
             else -> {
+                TextField(
+                    value = search,
+                    onValueChange = { search = it },
+                    label = { Text(text = stringResource(R.string.search)) },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            navController.navigate("$NAV_DETAIL_VIEW/${0}/?${search}")
+                        }
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = dimensionResource(R.dimen.size_3dp))
+                )
                 LazyColumn(
                     modifier = Modifier
                 ) {
@@ -52,7 +84,7 @@ fun ContentHomeView(viewModel: MoviesViewModel, paddingValues: PaddingValues) {
                         val item = moviesPage[index]
                         if (item != null) {
                             MovieCard (item) {
-
+                                navController.navigate("$NAV_DETAIL_VIEW/${item.id}/?${search}")
                             }
                             Box(
                                 modifier = Modifier.fillMaxWidth().padding(bottom = dimensionResource(R.dimen.size_5dp)),

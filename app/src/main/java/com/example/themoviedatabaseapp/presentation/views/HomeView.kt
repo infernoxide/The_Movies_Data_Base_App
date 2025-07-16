@@ -3,12 +3,13 @@ package com.example.themoviedatabaseapp.presentation.views
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.presentation.viewmodel.MoviesViewModel
 import com.example.themoviedatabaseapp.presentation.composables.MainTopBar
 
 @Composable
-fun HomeView(viewModel: MoviesViewModel) {
+fun HomeView(viewModel: MoviesViewModel,  navController: NavController) {
 
     Scaffold(
         topBar = {
@@ -16,7 +17,7 @@ fun HomeView(viewModel: MoviesViewModel) {
         }
 
     ) { paddingValues ->
-        ContentHomeView(viewModel, paddingValues)
+        ContentHomeView(viewModel, paddingValues, navController)
     }
 
 }

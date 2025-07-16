@@ -7,7 +7,7 @@ fun MovieDetails.toEntity(): MovieTable{
     return MovieTable(
         id = this.id?.toLong() ?: 0L,
         backdrop_path = this.backdrop_path ?: "",
-        home_page = this.home_page ?: "",
+        homepage = this.homepage ?: "",
         overview = this.overview ?: "",
         release_date = this.release_date ?: "",
         title = this.title ?: ""
