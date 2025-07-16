@@ -1,11 +1,16 @@
 package com.example.themoviedatabaseapp.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.themoviedatabaseapp.BuildConfig
+import com.example.themoviedatabaseapp.data.local.room.MoviesDatabase
+import com.example.themoviedatabaseapp.data.local.room.dao.MoviesDAO
 import com.example.themoviedatabaseapp.data.remote.AuthInterceptor
 import com.example.themoviedatabaseapp.data.remote.MoviesAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -43,5 +48,22 @@ object AppModule {
     @Provides
     fun providesMoviesAPI(retrofit: Retrofit): MoviesAPI {
         return retrofit.create(MoviesAPI::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesMoviesDAO(moviesDatabase: MoviesDatabase) : MoviesDAO {
+        return moviesDatabase.moviesDAO()
+    }
+
+    @Singleton
+    @Provides
+    fun providesMoviesDataBase(@ApplicationContext context: Context) : MoviesDatabase {
+        return Room.databaseBuilder(
+            context,
+            MoviesDatabase::class.java,
+            "movies_database"
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 }
