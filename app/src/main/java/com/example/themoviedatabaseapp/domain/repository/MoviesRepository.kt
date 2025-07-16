@@ -8,7 +8,7 @@ class MoviesRepository @Inject constructor(
     private val moviesAPI: MoviesAPI
 ) {
 
-    suspend fun getGamesByPaging(language: String, page: Int): MoviesList {
+    suspend fun getMoviesByPaging(language: String, page: Int): MoviesList {
         return moviesAPI.getMoviesByPaging(language, page)
     }
 

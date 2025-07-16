@@ -41,7 +41,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesAPIGames(retrofit: Retrofit): MoviesAPI {
+    fun providesMoviesAPI(retrofit: Retrofit): MoviesAPI {
         return retrofit.create(MoviesAPI::class.java)
     }
 }

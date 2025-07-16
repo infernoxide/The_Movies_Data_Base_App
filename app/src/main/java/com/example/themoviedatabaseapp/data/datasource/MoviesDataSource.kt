@@ -18,7 +18,7 @@ class MoviesDataSource (private val repository: MoviesRepository) : PagingSource
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieModel> {
         return try {
             val nextPageNumber = params.key ?: 1
-            val response = repository.getGamesByPaging(Constants.LANGUAGE_PARAM, nextPageNumber)
+            val response = repository.getMoviesByPaging(Constants.LANGUAGE_PARAM, nextPageNumber)
             LoadResult.Page(
                 data = response.results,
                 prevKey = null,

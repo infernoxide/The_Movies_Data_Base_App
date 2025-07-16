@@ -24,6 +24,7 @@ android {
         buildConfigField("String", "BASE_URL", "\"${property("BASE_URL")}\"")
         buildConfigField("String", "TOKEN", "\"${property("TOKEN")}\"")
         buildConfigField("String", "API_KEY", "\"${property("API_KEY")}\"")
+        buildConfigField("String", "IMAGES_BASE_URL", "\"${property("IMAGES_BASE_URL")}\"")
     }
 
     buildTypes {
