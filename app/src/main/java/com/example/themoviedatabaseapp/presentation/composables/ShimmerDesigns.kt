@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,8 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.example.themoviedatabaseapp.R
 
 @Composable
-fun SetSpace(height: Int) {
-    Spacer(modifier = Modifier.height(height.dp))
+fun SetSpace(value: Int, alignment : Int) {
+    if (alignment == 1)
+        Spacer(modifier = Modifier.height(value.dp))
+    else
+        Spacer(modifier = Modifier.width(value.dp))
 }
 
 @Composable
@@ -51,20 +55,20 @@ fun SetBox(width: Float, height: Int, applyCorners: Boolean = false) {
 
 @Composable
 fun ShimmerHomeResults() {
-    SetSpace(16)
+    SetSpace(16, 1)
     SetBox(1f, 35)
-    SetSpace(16)
-    repeat(2) {
+    SetSpace(16, 1)
+    repeat(3) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = dimensionResource(R.dimen.size_10dp))
         ) {
             Column {
-                SetBox(1f, 250, true)
-                SetSpace(16)
+                SetBox(1f, 500, true)
+                SetSpace(16, 1)
                 SetBox(0.7f, 25)
-                SetSpace(8)
+                SetSpace(8, 1)
             }
         }
     }
@@ -72,30 +76,43 @@ fun ShimmerHomeResults() {
 
 @Composable
 fun ShimmerDetailView() {
-    SetBox(1f, 250)
-    SetSpace(10)
+    SetBox(1f, 500)
+    SetSpace(10, 1)
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = dimensionResource(R.dimen.size_10dp))
     ) {
         Row(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.size_10dp))) {
-            Column {
-                SetBox(0.6f, 30)
-                SetSpace(15)
-                SetBox(0.4f, 30)
-            }
-            Column(modifier = Modifier.padding(start = dimensionResource(R.dimen.size_20dp))) {
-                SetBox(0.9f, 90, true)
-            }
+                SetBox(0.5f, 30)
+                SetSpace(15,2)
+                SetBox(0.5f, 30, true)
         }
         Column(modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.size_10dp))) {
-            SetSpace(20)
+            SetSpace(20,1)
             SetBox(1f, 15)
-            SetSpace(10)
+            SetSpace(10,1)
             SetBox(1f, 15)
-            SetSpace(10)
+            SetSpace(10,1)
             SetBox(0.5f, 15)
+        }
+    }
+}
+
+@Composable
+fun ShimmerResults(){
+    repeat(3) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = dimensionResource(R.dimen.size_10dp))
+        ) {
+            Column {
+                SetBox(1f, 500, true)
+                SetSpace(16, 1)
+                SetBox(0.7f, 25)
+                SetSpace(8, 1)
+            }
         }
     }
 }
