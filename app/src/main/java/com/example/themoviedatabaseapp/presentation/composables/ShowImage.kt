@@ -7,27 +7,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.rememberImagePainter
+import com.example.themoviedatabaseapp.BuildConfig
 import com.example.themoviedatabaseapp.R
 
 @Composable
 fun ShowImage(image: String){
-    val movieCover = rememberImagePainter(
-        data = image,
-        builder = {
-            placeholder(R.drawable.icon_image_placeholder)
-            error(R.drawable.icon_image_not_found)
-            fallback(R.drawable.icon_image_not_found)
-        }
-    )
 
-    Image(
-        painter = movieCover,
-        contentDescription = stringResource(R.string.movie_cover),
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.size_500dp))
-    )
+    if (image.length > 32){
+        val movieCover = rememberImagePainter(
+            data = image,
+            builder = {
+                placeholder(R.drawable.tmbd_place_holder)
+                error(R.drawable.tmbd_place_holder)
+                fallback(R.drawable.tmbd_place_holder)
+            }
+        )
+        Image(
+            painter = movieCover,
+            contentDescription = stringResource(R.string.movie_cover),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.size_500dp))
+        )
+    }else{
+        Image(
+            painter = painterResource(R.drawable.tmbd_place_holder),
+            contentDescription = stringResource(R.string.movie_cover),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.size_500dp))
+        )
+    }
+
 }

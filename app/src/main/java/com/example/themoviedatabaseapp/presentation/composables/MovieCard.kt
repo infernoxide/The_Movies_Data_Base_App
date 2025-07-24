@@ -24,11 +24,7 @@ fun MovieCard(movie: MovieModel, onclick: () -> Unit){
             .clickable { onclick() }
     ) {
         Column {
-            ShowImage(
-                image = if (movie.poster_path!!.isNotEmpty()) BuildConfig.IMAGES_BASE_URL+movie.poster_path else stringResource(
-                    R.string.no_cover_image
-                )
-            )
+            ShowImage(BuildConfig.IMAGES_BASE_URL+movie.poster_path)
         }
     }
 }
