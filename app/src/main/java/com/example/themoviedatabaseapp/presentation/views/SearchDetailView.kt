@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.paging.LoadState
@@ -60,32 +61,33 @@ fun SearchDetailView(
                 ShimmerHomeResults()
             }
             else -> {
-                LazyColumn(
-                    modifier = Modifier
-                ) {
-                    items(searchResults.itemCount) { index ->
-                        val item = searchResults[index]
-                        if (item != null) {
-                            MovieCard (item) {
-                                navController.navigate("$NAV_DETAIL_VIEW/${item.id}")
-                            }
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        bottom = dimensionResource(
-                                            R.dimen.size_5dp
-                                        )
-                                    ),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = if (item.title!!.isNotEmpty()) item.title else stringResource(
-                                        R.string.empty_name),
-                                    fontSize = dimensionResource(R.dimen.size_20dp).value.sp,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    color = Color.Black
-                                )
+                if (searchResults.itemCount == 0){
+                    ErrorView(
+                        error = stringResource(R.string.movie_not_found),
+                        onRetry = { }
+                    )
+                }else{
+                    LazyColumn {
+                        items(searchResults.itemCount) { index ->
+                            val item = searchResults[index]
+                            if (item != null) {
+                                MovieCard (item) {
+                                    navController.navigate("$NAV_DETAIL_VIEW/${item.id}")
+                                }
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = dimensionResource(R.dimen.size_5dp)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = if (item.name!!.isNotEmpty()) item.name else stringResource(R.string.empty_name),
+                                        fontSize = dimensionResource(R.dimen.size_20dp).value.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color.Black,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
                             }
                         }
                     }
