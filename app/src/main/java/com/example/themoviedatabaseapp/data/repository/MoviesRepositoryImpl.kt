@@ -63,4 +63,14 @@ class MoviesRepositoryImpl @Inject constructor(
 
         return null
     }
+
+    override suspend fun getMovieByName(query: String, page: Int): MoviesList {
+
+        if (!networkMonitor.isConnected.value) {
+            throw IOException("Sin conexión a internet")
+        }
+
+        return moviesAPI.getMovieByName(query, Constants.LANGUAGE_PARAM, page)
+
+    }
 }

@@ -6,4 +6,5 @@ import com.example.themoviedatabaseapp.domain.model.MoviesList
 interface MoviesRepository {
     suspend fun getMoviesByPaging(page: Int): MoviesList
     suspend fun getMovieByID(id: Int): MovieTable?
+    suspend fun getMovieByName(query: String, page: Int): MoviesList
 }

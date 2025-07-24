@@ -5,5 +5,6 @@ class Constants {
         const val LANGUAGE_PARAM = "en-US"
         const val NAV_HOME = "home"
         const val NAV_DETAIL_VIEW = "detailView"
+        const val NAV_SEARCH_VIEW = "searchView"
     }
 }

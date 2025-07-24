@@ -6,15 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.themoviedatabaseapp.R
 import com.example.themoviedatabaseapp.data.local.room.entities.MovieTable
 import com.example.themoviedatabaseapp.di.NetworkMonitor
+import com.example.themoviedatabaseapp.domain.model.MovieModel
 import com.example.themoviedatabaseapp.domain.usescase.GetMovieByIDUseCase
 import com.example.themoviedatabaseapp.domain.usescase.GetMoviesByPagingUseCase
 import com.example.themoviedatabaseapp.presentation.uistate.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +30,7 @@ class MoviesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var pendingAction: (() -> Unit) ?= null
-    val moviesPage = getMoviesByPagingUseCase().cachedIn(viewModelScope)
+    val nowPlayingMovies = getMoviesByPagingUseCase.getNowPlayingPager().flow.cachedIn(viewModelScope)
     var movieByIdState: UiState<MovieTable> by mutableStateOf(UiState.Loading)
         private set
 
@@ -60,6 +63,13 @@ class MoviesViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun getMoviesByName(name: String): Flow<PagingData<MovieModel>> {
+        return getMoviesByPagingUseCase
+            .getMoviesByNamePager(name)
+            .flow
+            .cachedIn(viewModelScope)
     }
 
 }

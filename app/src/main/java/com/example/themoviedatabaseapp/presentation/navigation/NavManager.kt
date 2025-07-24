@@ -8,9 +8,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.themoviedatabaseapp.core.Constants.Companion.NAV_DETAIL_VIEW
 import com.example.themoviedatabaseapp.core.Constants.Companion.NAV_HOME
+import com.example.themoviedatabaseapp.core.Constants.Companion.NAV_SEARCH_VIEW
 import com.example.themoviedatabaseapp.presentation.viewmodel.MoviesViewModel
 import com.example.themoviedatabaseapp.presentation.views.DetailView
 import com.example.themoviedatabaseapp.presentation.views.HomeView
+import com.example.themoviedatabaseapp.presentation.views.SearchView
 
 @Composable
 fun NavManager(viewModel: MoviesViewModel) {
@@ -20,14 +22,20 @@ fun NavManager(viewModel: MoviesViewModel) {
             HomeView(viewModel = viewModel, navController)
         }
         composable(
-            route = "$NAV_DETAIL_VIEW/{id}/?{name}",
+            route = "$NAV_DETAIL_VIEW/{id}",
             arguments = listOf(
-                navArgument("id") { type = NavType.IntType },
-                navArgument("name") { type = NavType.StringType}
+                navArgument("id") { type = NavType.IntType }
             )) { navStackEntry ->
             val id = navStackEntry.arguments?.getInt("id") ?: 0
-            val name = navStackEntry.arguments?.getString("name") ?: ""
-            DetailView(viewModel = viewModel, navController, id, name)
+            DetailView(viewModel = viewModel, navController, id)
+        }
+        composable(
+            route = "$NAV_SEARCH_VIEW/{name}",
+            arguments = listOf(
+                navArgument("name") { type = NavType.StringType }
+            )) { navBackStackEntry ->
+            val name = navBackStackEntry.arguments?.getString("name") ?: ""
+            SearchView(viewModel, navController, name)
         }
     }
 }
